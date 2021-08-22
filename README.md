@@ -6,7 +6,7 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-scala@latest
+      uses: japgolly/setup-everything-scala@latest
 ```
 
 To replace this:

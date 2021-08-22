@@ -1,4 +1,4 @@
-name: 'setup-scala'
+name: 'setup-everything-scala'
 description: 'GitHub Action to prepare the environment for Scala & Scala.JS dev and testing'
 author: 'David Barri (@japgolly)'
 
