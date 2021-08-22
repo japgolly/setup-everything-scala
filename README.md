@@ -6,7 +6,7 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-everything-scala@latest
+      uses: japgolly/setup-everything-scala@v1.0
 ```
 
 To replace this:
@@ -22,7 +22,7 @@ To replace this:
       uses: japgolly/setup-scalajs@v1
 
     - name: Cache sbt
-      uses: coursier/cache-action@v6
+      uses: coursier/cache-action@v6.3
 ```
 
 ## Inputs
