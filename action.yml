@@ -54,4 +54,4 @@ runs:
         source-map-support-version: ${{ inputs.source-map-support-version }}
 
     - name: Cache sbt
-      uses: coursier/cache-action@v6
+      uses: coursier/cache-action@v6.3
