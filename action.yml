@@ -1,0 +1,57 @@
+name: 'setup-scala'
+description: 'GitHub Action to prepare the environment for Scala & Scala.JS dev and testing'
+author: 'David Barri (@japgolly)'
+
+inputs:
+  java-version:
+    description: 'The Java version to install.'
+    required: false
+    default: 'adopt@1.8'
+
+  jsdom-version:
+    description: 'The jsdom version to install.'
+    required: false
+    default: 'latest'
+
+  node-cache:
+    description: 'Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm'
+    required: false
+
+  node-cache-dependency-path:
+    description: 'Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.'
+    required: false
+
+  node-version:
+    description: 'The Node version to install.'
+    required: false
+    default: '16'
+
+  source-map-support-version:
+    description: 'The source-map-support version to install.'
+    required: false
+    default: 'latest'
+
+runs:
+  using: 'composite'
+  steps:
+
+    - name: Setup Java and Scala
+      uses: olafurpg/setup-scala@v13
+      with:
+        java-version: ${{ inputs.java-version }}
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        cache: ${{ inputs.node-cache }}
+        cache-dependency-path: ${{ inputs.node-cache-dependency-path }}
+        node-version: ${{ inputs.node-version }}
+
+    - name: Setup Scala.JS
+      uses: japgolly/setup-scalajs@v1
+      with:
+        jsdom-version: ${{ inputs.jsdom-version }}
+        source-map-support-version: ${{ inputs.source-map-support-version }}
+
+    - name: Cache sbt
+      uses: coursier/cache-action@v6
