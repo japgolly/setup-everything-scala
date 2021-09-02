@@ -73,7 +73,7 @@ jobs:
 # Inputs
 
 All inputs are optional.
-See [`actions.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
+See [`action.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
 
 * `coursier-cache-ammoniteScripts`
 * `coursier-cache-extraAmmoniteHashedContent`
