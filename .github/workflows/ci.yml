@@ -9,6 +9,12 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ./
-      - run: cd test && sbt test
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install
+        uses: ./
+
+      - name: Test
+        run: cd test && sbt test
