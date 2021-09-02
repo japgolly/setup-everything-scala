@@ -28,7 +28,49 @@ To replace (a subset of) this:
       uses: coursier/cache-action@v6.3
 ```
 
-## Inputs
+# Dynamic Scala Versions
+
+If you have your Scala versions stored as `val`s or `def`s in your sbt field, then you can use `sbt++field` to set
+the Scala version dynamically. Example:
+
+`build.sbt`:
+```scala
+  val scala211 = "2.11.10"
+  val scala212 = "2.12.8"
+  val scala213 = "2.13.6"
+  val scala3   = "3.0.2"
+```
+
+`.github/workflows/ci.yaml`:
+```yml
+name: CI
+on:
+  pull_request:
+  push:
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - scala: scala211
+          - scala: scala212
+          - scala: scala213
+          - scala: scala3
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Scala
+        uses: japgolly/setup-everything-scala@v1.1
+
+      - name: Build and test
+        shell: bash
+        run: sbt++field ${{ matrix.scala }} test
+```
+
+# Inputs
 
 All inputs are optional.
 See [`actions.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
