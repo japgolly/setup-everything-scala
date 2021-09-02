@@ -1,4 +1,4 @@
-# 'Setup Scala' GitHub Action
+# `setup-everything-scala` GitHub Action
 
 A GitHub Action to prepare the environment for Scala & Scala.JS dev and testing.
 
