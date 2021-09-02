@@ -52,11 +52,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - scala: scala211
-          - scala: scala212
-          - scala: scala213
-          - scala: scala3
+        scala:
+          - scala211
+          - scala212
+          - scala213
+          - scala3
 
     steps:
       - name: Git checkout
