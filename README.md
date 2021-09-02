@@ -21,6 +21,9 @@ To replace (a subset of) this:
     - name: Setup Scala.JS
       uses: japgolly/setup-scalajs@v1
 
+    - name: Setup Scala Utils
+      uses: japgolly/setup-scala-util@v1.1
+
     - name: Cache sbt
       uses: coursier/cache-action@v6.3
 ```

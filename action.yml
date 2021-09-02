@@ -219,6 +219,9 @@ runs:
         jsdom-version: ${{ inputs.jsdom-version }}
         source-map-support-version: ${{ inputs.source-map-support-version }}
 
+    - name: Setup Scala Utils
+      uses: japgolly/setup-scala-util@v1.1
+
     - name: Cache sbt
       uses: coursier/cache-action@v6.3
       with:

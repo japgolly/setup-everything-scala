@@ -17,4 +17,4 @@ jobs:
         uses: ./
 
       - name: Test
-        run: cd test && sbt test
+        run: cd test && sbt++field scala2 test
