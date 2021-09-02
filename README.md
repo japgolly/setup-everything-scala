@@ -30,6 +30,7 @@ To replace (a subset of) this:
 All inputs are optional.
 See [`actions.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
 
+* `chrome-version`
 * `coursier-cache-ammoniteScripts`
 * `coursier-cache-extraAmmoniteHashedContent`
 * `coursier-cache-extraAmmoniteKey`
@@ -46,6 +47,8 @@ See [`actions.yml`](https://github.com/japgolly/setup-everything-scala/blob/mast
 * `coursier-cache-matrix`
 * `coursier-cache-path`
 * `coursier-cache-root`
+* `firefox-version`
+* `geckodriver-version`
 * `jabba-version`
 * `java-version`
 * `jsdom-version`
