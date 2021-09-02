@@ -6,7 +6,7 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-everything-scala@v1.0
+      uses: japgolly/setup-everything-scala@v2.0
 ```
 
 To replace (a subset of) this:
