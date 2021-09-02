@@ -6,7 +6,134 @@ branding:
   icon: 'box'
   color: 'blue'
 
+# ======================================================================================================================
 inputs:
+
+  coursier-cache-root:
+    required: false
+    description: >
+      Root directory containing build definition sources (build.sbt, build.sc, etc.)
+      If the sbt or mill build definition files are in a sub-directory, pass the path to this
+      sub-directory here.
+    default: '.'
+
+  coursier-cache-path:
+    required: false
+    description: >
+      Override for the path of the coursier cache.
+      By default, the coursier cache is assumed to be in the default OS-dependent location.
+      Set this input to override that. Note that this action will also set COURSIER_CACHE
+      if an override is specified, so that you don't have to set it yourself.
+    default: ''
+
+  coursier-cache-job:
+    required: false
+    description: >
+      Job name, to be used in the cache key, so that each job has its own cache.
+    default: '${{ github.job }}'
+
+  coursier-cache-matrix:
+    required: false
+    description: >
+      Matrix values, when using the matrix strategy.
+      When using build matrices for more than the OS (for Scala versions, JDKs, test suites, …),
+      pass the matrix values here, with `matrix: -dollar-{{ toJson(matrix) }}`. The matrix instance is hashed,
+      and added to the cache key, so that each matrix instance has its own cache, and those caches don't
+      collide.
+    default: '${{ toJson(matrix) }}'
+
+  coursier-cache-extraFiles:
+    required: false
+    description: >
+      Extra files to take into account in the cache key.
+      By default, sbt build definition files (*.sbt, project/**.{scala,sbt}, project/build.properties) and
+      mill build definition files (*.sc, ./mill) are hashed to uniquely identify the cached data. Upon
+      cache restoration, if an exact match is found, the cache is not saved again at the end of the job.
+      In case of no exact match, it is assumed new files may have been fetched; the previous cache for the
+      current OS, if any, is restored, but a new cache is persisted with a new key at the end of the job.
+      To take into account extra files in the cache key, pass via extraFiles either
+      - a single path as a string
+      - multiple paths in a JSON array, encoded in a string
+      Blobs are accepted (processed by [glob-all](https://www.npmjs.com/package/glob-all)).
+    default: ''
+
+  coursier-cache-extraKey:
+    required: false
+    description: >
+      Extra value to be appended to the coursier cache key.
+      See extraFiles for more details.
+    default: ''
+
+  coursier-cache-extraHashedContent:
+    required: false
+    description: >
+      Extra content to take into account in the cache key.
+      See extraFiles for more details.
+      The content of extraHashedContent is taken into account in the hash for the coursier cache key.
+    default: ''
+
+  coursier-cache-extraSbtFiles:
+    required: false
+    description: >
+      Extra sbt files to take into account in the sbt cache key. Same format as extraFiles.
+    default: ''
+
+  coursier-cache-extraSbtKey:
+    required: false
+    description: >
+      Extra value to be appended to the sbt cache key.
+      See extraFiles for more details.
+    default: ''
+
+  coursier-cache-extraSbtHashedContent:
+    required: false
+    description: >
+      Extra content to take into account in the sbt cache key. Same format as extraHashedContent.
+    default: ''
+
+  coursier-cache-extraMillFiles:
+    required: false
+    description: >
+      Extra mill files to take into account in the mill cache key. Same format as extraFiles.
+    default: ''
+
+  coursier-cache-extraMillKey:
+    required: false
+    description: >
+      Extra value to be appended to the mill cache key.
+      See extraFiles for more details.
+    default: ''
+
+  coursier-cache-extraMillHashedContent:
+    required: false
+    description: >
+      Extra content to take into account in the mill cache key. Same format as extraHashedContent.
+    default: ''
+
+  coursier-cache-ammoniteScripts:
+    required: false
+    description: >
+      Ammonite scripts to take into account in the Ammonite cache key. Same format as extraFiles.
+    default: ''
+
+  coursier-cache-extraAmmoniteKey:
+    required: false
+    description: >
+      Extra value to be appended to the Ammonite cache key.
+      See extraFiles for more details.
+    default: ''
+
+  coursier-cache-extraAmmoniteHashedContent:
+    required: false
+    description: >
+      Extra content to take into account in the Ammonite cache key. Same format as extraHashedContent.
+    default: ''
+
+  jabba-version:
+    description: 'The Jabba version to install.'
+    required: false
+    default: '0.11.2'
+
   java-version:
     description: 'The Java version to install.'
     required: false
@@ -17,6 +144,15 @@ inputs:
     required: false
     default: 'latest'
 
+  node-always-auth:
+    description: 'Set always-auth in npmrc'
+    required: false
+    default: 'false'
+
+  node-architecture:
+    description: 'Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.'
+    required: false
+
   node-cache:
     description: 'Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm'
     required: false
@@ -25,8 +161,26 @@ inputs:
     description: 'Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.'
     required: false
 
+  node-check-latest:
+    description: 'Set this option if you want the action to check for the latest available version that satisfies the version spec'
+    required: false
+    default: 'false'
+
+  node-registry-url:
+    description: 'Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN'
+    required: false
+
+  node-scope:
+    description: 'Optional scope for authenticating against scoped registries'
+    required: false
+
+  node-token:
+    description: Used to pull node distributions from node-versions.  Since there's a default, this is typically not supplied by the user.
+    required: false
+    default: ${{ github.token }}
+
   node-version:
-    description: 'The Node version to install.'
+    description: 'Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0'
     required: false
     default: '16'
 
@@ -35,6 +189,7 @@ inputs:
     required: false
     default: 'latest'
 
+# ======================================================================================================================
 runs:
   using: 'composite'
   steps:
@@ -42,14 +197,21 @@ runs:
     - name: Setup Java and Scala
       uses: olafurpg/setup-scala@v13
       with:
+        jabba-version: ${{ inputs.jabba-version }}
         java-version: ${{ inputs.java-version }}
 
     - name: Setup Node
       uses: actions/setup-node@v2
       with:
+        always-auth: ${{ inputs.node-always-auth }}
+        architecture: ${{ inputs.node-architecture }}
         cache: ${{ inputs.node-cache }}
         cache-dependency-path: ${{ inputs.node-cache-dependency-path }}
+        check-latest: ${{ inputs.node-check-latest }}
         node-version: ${{ inputs.node-version }}
+        registry-url: ${{ inputs.node-registry-url }}
+        scope: ${{ inputs.node-scope }}
+        token: ${{ inputs.node-token }}
 
     - name: Setup Scala.JS
       uses: japgolly/setup-scalajs@v1
@@ -59,3 +221,20 @@ runs:
 
     - name: Cache sbt
       uses: coursier/cache-action@v6.3
+      with:
+        ammoniteScripts: ${{ inputs.coursier-cache-ammoniteScripts }}
+        extraAmmoniteHashedContent: ${{ inputs.coursier-cache-extraAmmoniteHashedContent }}
+        extraAmmoniteKey: ${{ inputs.coursier-cache-extraAmmoniteKey }}
+        extraFiles: ${{ inputs.coursier-cache-extraFiles }}
+        extraHashedContent: ${{ inputs.coursier-cache-extraHashedContent }}
+        extraKey: ${{ inputs.coursier-cache-extraKey }}
+        extraMillFiles: ${{ inputs.coursier-cache-extraMillFiles }}
+        extraMillHashedContent: ${{ inputs.coursier-cache-extraMillHashedContent }}
+        extraMillKey: ${{ inputs.coursier-cache-extraMillKey }}
+        extraSbtFiles: ${{ inputs.coursier-cache-extraSbtFiles }}
+        extraSbtHashedContent: ${{ inputs.coursier-cache-extraSbtHashedContent }}
+        extraSbtKey: ${{ inputs.coursier-cache-extraSbtKey }}
+        job: ${{ inputs.coursier-cache-job }}
+        matrix: ${{ inputs.coursier-cache-matrix }}
+        path: ${{ inputs.coursier-cache-path }}
+        root: ${{ inputs.coursier-cache-root }}
