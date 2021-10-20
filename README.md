@@ -22,7 +22,7 @@ To replace (a subset of) this:
       uses: japgolly/setup-scalajs@v1
 
     - name: Setup Scala Utils
-      uses: japgolly/setup-scala-util@v1.1
+      uses: japgolly/setup-scala-util@v2.0
 
     - name: Cache sbt
       uses: coursier/cache-action@v6.3
@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Scala
-        uses: japgolly/setup-everything-scala@v1.1
+        uses: japgolly/setup-everything-scala@v2.0
 
       - name: Build and test
         shell: bash
