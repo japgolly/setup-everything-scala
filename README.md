@@ -6,14 +6,14 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-everything-scala@v2.0
+      uses: japgolly/setup-everything-scala@v3.0
 ```
 
 To replace (a subset of) this:
 
 ```yaml
     - name: Setup Java and Scala
-      uses: olafurpg/setup-scala@v13
+      uses: coursier/setup-action@v1.1.2
 
     - name: Setup Node
       uses: actions/setup-node@v2
@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Scala
-        uses: japgolly/setup-everything-scala@v2.0
+        uses: japgolly/setup-everything-scala@v3.0
 
       - name: Build and test
         shell: bash
@@ -75,6 +75,7 @@ jobs:
 All inputs are optional.
 See [`action.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
 
+* `coursier-apps`
 * `coursier-cache-ammoniteScripts`
 * `coursier-cache-extraAmmoniteHashedContent`
 * `coursier-cache-extraAmmoniteKey`
@@ -91,7 +92,6 @@ See [`action.yml`](https://github.com/japgolly/setup-everything-scala/blob/maste
 * `coursier-cache-matrix`
 * `coursier-cache-path`
 * `coursier-cache-root`
-* `jabba-version`
 * `java-version`
 * `jsdom-version`
 * `node-always-auth`
