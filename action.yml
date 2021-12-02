@@ -236,16 +236,19 @@ runs:
 
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@latest
+      if: ${{ inputs.chrome-version != 'latest' }}
       with:
         chrome-version: ${{ inputs.chrome-version }}
 
     - name: Setup Firefox
       uses: browser-actions/setup-firefox@latest
+      if: ${{ inputs.firefox-version != 'latest' }}
       with:
         firefox-version: ${{ inputs.firefox-version }}
 
     - name: Setup Geckodriver
       uses: browser-actions/setup-geckodriver@latest
+      if: ${{ inputs.geckodriver-version != 'latest' }}
       with:
         geckodriver-version: ${{ inputs.geckodriver-version }}
 
