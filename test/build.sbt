@@ -6,7 +6,9 @@ import org.openqa.selenium.remote.server.{DriverFactory, DriverProvider}
 import org.scalajs.jsenv.jsdomnodejs.JSDOMNodeJSEnv
 import org.scalajs.jsenv.selenium.SeleniumJSEnv
 
-scalaVersion := "2.13.6"
+val scala2 = "2.13.6"
+
+scalaVersion := scala2
 
 def testProject: Project => Project = _
   .enablePlugins(ScalaJSPlugin)
