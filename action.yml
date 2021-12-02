@@ -9,6 +9,11 @@ branding:
 # ======================================================================================================================
 inputs:
 
+  coursier-apps:
+    description: 'Applications to install via coursier.'
+    required: false
+    default: 'sbt sbtn'
+
   coursier-cache-root:
     required: false
     description: >
@@ -129,15 +134,10 @@ inputs:
       Extra content to take into account in the Ammonite cache key. Same format as extraHashedContent.
     default: ''
 
-  jabba-version:
-    description: 'The Jabba version to install.'
-    required: false
-    default: '0.11.2'
-
   java-version:
-    description: 'The Java version to install.'
+    description: 'The Java version to install. To see available options, run: cs java --available'
     required: false
-    default: 'adopt@1.8'
+    default: 'adopt:1.8'
 
   jsdom-version:
     description: 'The jsdom version to install.'
@@ -195,10 +195,10 @@ runs:
   steps:
 
     - name: Setup Java and Scala
-      uses: olafurpg/setup-scala@v13
+      uses: coursier/setup-action@v1.1.2
       with:
-        jabba-version: ${{ inputs.jabba-version }}
-        java-version: ${{ inputs.java-version }}
+        apps: ${{ inputs.coursier-apps }}
+        jvm: ${{ inputs.java-version }}
 
     - name: Setup Node
       uses: actions/setup-node@v2
