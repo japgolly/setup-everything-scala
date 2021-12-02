@@ -75,6 +75,7 @@ jobs:
 All inputs are optional.
 See [`action.yml`](https://github.com/japgolly/setup-everything-scala/blob/master/action.yml) for descriptions and defaults.
 
+* `chrome-version`
 * `coursier-apps`
 * `coursier-cache-ammoniteScripts`
 * `coursier-cache-extraAmmoniteHashedContent`
@@ -92,6 +93,8 @@ See [`action.yml`](https://github.com/japgolly/setup-everything-scala/blob/maste
 * `coursier-cache-matrix`
 * `coursier-cache-path`
 * `coursier-cache-root`
+* `firefox-version`
+* `geckodriver-version`
 * `java-version`
 * `jsdom-version`
 * `node-always-auth`

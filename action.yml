@@ -9,6 +9,11 @@ branding:
 # ======================================================================================================================
 inputs:
 
+  chrome-version:
+    description: 'The Google Chrome/Chromium version to install and use.'
+    required: false
+    default: latest
+
   coursier-apps:
     description: 'Applications to install via coursier.'
     required: false
@@ -134,6 +139,16 @@ inputs:
       Extra content to take into account in the Ammonite cache key. Same format as extraHashedContent.
     default: ''
 
+  firefox-version:
+    description: 'The Firefox version to install and use. Examples: 84.0, 84.0.1, latest-esr'
+    required: false
+    default: latest
+
+  geckodriver-version:
+    description: 'The Geckodriver version to install and use. Examples: 0.28.0, latest.'
+    required: false
+    default: latest
+
   java-version:
     description: 'The Java version to install. To see available options, run: cs java --available'
     required: false
@@ -218,6 +233,24 @@ runs:
       with:
         jsdom-version: ${{ inputs.jsdom-version }}
         source-map-support-version: ${{ inputs.source-map-support-version }}
+
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
+      if: ${{ inputs.chrome-version != 'latest' }}
+      with:
+        chrome-version: ${{ inputs.chrome-version }}
+
+    - name: Setup Firefox
+      uses: browser-actions/setup-firefox@latest
+      if: ${{ inputs.firefox-version != 'latest' }}
+      with:
+        firefox-version: ${{ inputs.firefox-version }}
+
+    - name: Setup Geckodriver
+      uses: browser-actions/setup-geckodriver@latest
+      if: ${{ inputs.geckodriver-version != 'latest' }}
+      with:
+        geckodriver-version: ${{ inputs.geckodriver-version }}
 
     - name: Setup Scala Utils
       uses: japgolly/setup-scala-util@v1.1
