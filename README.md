@@ -6,14 +6,14 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-everything-scala@v3.0
+      uses: japgolly/setup-everything-scala@v3.1
 ```
 
 To replace (a subset of) this:
 
 ```yaml
     - name: Setup Java and Scala
-      uses: coursier/setup-action@v1.1.2
+      uses: coursier/setup-action@v1.2.0-M2
 
     - name: Setup Node
       uses: actions/setup-node@v2
@@ -63,7 +63,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup Scala
-        uses: japgolly/setup-everything-scala@v3.0
+        uses: japgolly/setup-everything-scala@v3.1
 
       - name: Build and test
         shell: bash
