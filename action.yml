@@ -216,7 +216,7 @@ runs:
         jvm: ${{ inputs.java-version }}
 
     - name: Setup Node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         always-auth: ${{ inputs.node-always-auth }}
         architecture: ${{ inputs.node-architecture }}
