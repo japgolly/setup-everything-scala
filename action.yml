@@ -210,7 +210,7 @@ runs:
   steps:
 
     - name: Setup Java and Scala
-      uses: coursier/setup-action@v1.2.0-M2
+      uses: coursier/setup-action@v1.2.1
       with:
         apps: ${{ inputs.coursier-apps }}
         jvm: ${{ inputs.java-version }}
