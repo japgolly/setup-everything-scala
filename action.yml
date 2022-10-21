@@ -256,7 +256,7 @@ runs:
       uses: japgolly/setup-scala-util@v1.1
 
     - name: Cache sbt
-      uses: coursier/cache-action@v6.3
+      uses: coursier/cache-action@v6.4
       with:
         ammoniteScripts: ${{ inputs.coursier-cache-ammoniteScripts }}
         extraAmmoniteHashedContent: ${{ inputs.coursier-cache-extraAmmoniteHashedContent }}
