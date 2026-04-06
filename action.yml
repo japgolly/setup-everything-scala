@@ -159,11 +159,6 @@ inputs:
     required: false
     default: 'latest'
 
-  node-always-auth:
-    description: 'Set always-auth in npmrc'
-    required: false
-    default: 'false'
-
   node-architecture:
     description: 'Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.'
     required: false
@@ -181,8 +176,20 @@ inputs:
     required: false
     default: 'false'
 
+  node-mirror:
+    description: 'Optional mirror to download binaries from. Artifacts need to match the official Node.js'
+    required: false
+
+  node-mirror-token:
+    description: 'Optional mirror token. The token will be used as a bearer token in the Authorization header'
+    required: false
+
   node-registry-url:
     description: 'Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN'
+    required: false
+
+  node-package-manager-cache:
+    description: 'Controls automatic caching for npm. By default, caching for npm is enabled if either the devEngines.packageManager field or the top-level packageManager field in package.json specifies npm and no explicit cache input is provided. To disable automatic caching for npm, set package-manager-cache to false.'
     required: false
 
   node-scope:
@@ -198,6 +205,10 @@ inputs:
     description: 'Version Spec of the version to use.  Examples: 12.x, 10.15.1, >=10.15.0'
     required: false
     default: '16'
+
+  node-version-file:
+    description: 'File containing the version Spec of the version to use.  Examples: package.json, .nvmrc, .node-version, .tool-versions. If node-version and node-version-file are both provided the action will use version from node-version.'
+    required: false
 
   source-map-support-version:
     description: 'The source-map-support version to install.'
@@ -216,14 +227,17 @@ runs:
         jvm: ${{ inputs.java-version }}
 
     - name: Setup Node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v6
       with:
-        always-auth: ${{ inputs.node-always-auth }}
         architecture: ${{ inputs.node-architecture }}
         cache: ${{ inputs.node-cache }}
         cache-dependency-path: ${{ inputs.node-cache-dependency-path }}
         check-latest: ${{ inputs.node-check-latest }}
+        mirror: ${{ inputs.node-mirror }}
+        mirror-token: ${{ inputs.node-mirror-token }}
         node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version-file }}
+        package-manager-cache: ${{ inputs.node-package-manager-cache }}
         registry-url: ${{ inputs.node-registry-url }}
         scope: ${{ inputs.node-scope }}
         token: ${{ inputs.node-token }}
