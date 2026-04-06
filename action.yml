@@ -139,6 +139,10 @@ inputs:
       Extra content to take into account in the Ammonite cache key. Same format as extraHashedContent.
     default: ''
 
+  coursier-version:
+    description: 'Coursier version to install'
+    required: false
+
   firefox-version:
     description: 'The Firefox version to install and use. Examples: 84.0, 84.0.1, latest-esr'
     required: false
@@ -221,10 +225,11 @@ runs:
   steps:
 
     - name: Setup Java and Scala
-      uses: coursier/setup-action@v1.2.0-M2
+      uses: coursier/setup-action@v3
       with:
         apps: ${{ inputs.coursier-apps }}
         jvm: ${{ inputs.java-version }}
+        version: ${{ inputs.coursier-version }}
 
     - name: Setup Node
       uses: actions/setup-node@v6
