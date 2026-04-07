@@ -6,7 +6,7 @@ Use this:
 
 ```yaml
     - name: Setup Scala
-      uses: japgolly/setup-everything-scala@v4.0
+      uses: japgolly/setup-everything-scala@v4.1
 ```
 
 To replace (a subset of) this:
@@ -25,7 +25,7 @@ To replace (a subset of) this:
       uses: japgolly/setup-scala-util@v2.0
 
     - name: Cache sbt
-      uses: coursier/cache-action@v6.4
+      uses: coursier/cache-action@v8.1
 ```
 
 # Dynamic Scala Versions
