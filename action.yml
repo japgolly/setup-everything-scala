@@ -232,7 +232,7 @@ runs:
         version: ${{ inputs.coursier-version }}
 
     - name: Setup Node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         architecture: ${{ inputs.node-architecture }}
         cache: ${{ inputs.node-cache }}
